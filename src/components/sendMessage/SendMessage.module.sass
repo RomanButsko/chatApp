@@ -1,0 +1,40 @@
+.modal
+    width: 40vw
+    margin:  0 auto
+    display: flex
+    align-items: center
+    &_container
+        padding: 10px 20px 20px 20px
+        background-color: #ffff
+
+.btn
+    &_main
+        width: 100%
+        margin-bottom: 10px
+    &_close
+        margin-top: 16px
+        float: left
+    &_send
+        margin-top: 16px
+        float: right 
+
+.listbox
+    width: 93%
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+    z-index: 1000
+    position: absolute
+    list-style: none
+    background-color: #ffff,
+    overflow: auto
+    max-height: 200
+    border: 1px solid rgba(0,0,0,.25)
+    &_list
+        &:hover  
+            background-color:#4a8df6
+            color: white
+            cursor: pointer
+        &:active
+            background-color: #2977f5
+            color: white
