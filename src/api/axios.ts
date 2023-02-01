@@ -1,1 +1,1 @@
-export const ApiURL = `https://anonymous-chat-xl6f.onrender.com/`
+export const ApiURL = `https://chatappser-production.up.railway.app/`
