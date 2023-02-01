@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 import { IMessage, IMessageCreate } from '../types/message'
 
 export const useChat = (name?: string) => {
-    const socket = io('wss://anonymous-chat.onrender.com/:80/mail', { query: { name: name } })
+    const socket = io('wss://anonymous-chat-xl6f.onrender.com/:80/mail', { query: { name: name } })
 
     const [letters, setLetters] = useState<IMessage[]>([])
     const [notification, setNotification] = useState<boolean>(false)
