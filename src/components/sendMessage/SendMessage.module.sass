@@ -6,11 +6,32 @@
     &_container
         padding: 10px 20px 20px 20px
         background-color: #ffff
-
+        &__search
+            position: absolute
+            width: calc(100% - 40px)
+            max-height: 20vh
+            z-index: 3
+            background-color: #ffff
+            border: 1px solid black
+            border-radius: 8px
+            ul
+                padding-left: 0
+                li
+                    padding: 5px 0 5px 20px
+                    font-size: 16px
+                    list-style: none
+                    &:hover
+                        background-color: #fbff00
 .btn
     &_main
-        width: 100%
-        margin-bottom: 10px
+        background: linear-gradient(45deg, #a2f239cb 30%, #c3ee36c5 90%)
+        border: 0
+        width: 90%
+        border-radius: 3px
+        box-shadow: 0 3px 5px 2px rgba(255, 105, 135, .3)
+        color: white
+        height: 50px
+        padding: 0 30px
     &_close
         margin-top: 16px
         float: left

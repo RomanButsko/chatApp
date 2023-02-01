@@ -1,8 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { Footer } from '../footer/Footer'
-import Header from '../header/Header'
+import {Header} from '../header/Header'
 import { SendMessage } from '../sendMessage/SendMessage'
-import {SideBar} from '../sideBar/SideBar'
 import style from './Layout.module.sass'
 
 export const Layout = () => {
@@ -12,11 +11,10 @@ export const Layout = () => {
                 <Header />
             </header>
             <main className={style.wrapper_main}>
-                <section>
+                <section className={style.wrapper_sidebar}>
                     <div className={style.wrapper_main__createMess}>
                         <SendMessage />
                     </div>
-                    <SideBar />
                 </section>
                 <Outlet />
             </main>

@@ -2,13 +2,23 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
+import LogoutIcon from '@mui/icons-material/Logout'
+import { Box, Stack } from '@mui/material'
+import PersonIcon from '@mui/icons-material/Person'
+import { useAppSelector } from './../../hooks/useSelector'
 
-const Header = () => {
+export const Header = () => {
+    const handleLogout = () => {
+        localStorage.clear()
+        window.location.replace('/')
+    }
+
+    const user = useAppSelector((state) => state.auth.user)
+
     return (
         <div>
-            <AppBar position="static" style={{ backgroundColor: '#9c27b0' }}>
+            <AppBar position="static" style={{ backgroundColor: '#6db958' }}>
                 <Toolbar>
                     <Typography
                         variant="h6"
@@ -26,18 +36,32 @@ const Header = () => {
                     >
                         Itransition #6
                     </Typography>
-                    <Tooltip title="Open settings">
-                        <IconButton sx={{ p: 0 }}>
-                            <Avatar
-                                alt="Remy Sharp"
-                                src="/static/images/avatar/2.jpg"
-                            />
-                        </IconButton>
-                    </Tooltip>
+                    <Box>
+                        {user ? (
+                            <Stack
+                                direction="row"
+                                spacing={2}
+                                alignItems="center"
+                            >
+                                <PersonIcon />
+                                <span>{user.name}</span>
+                                <Tooltip title="Logout">
+                                    <IconButton
+                                        sx={{ p: 0 }}
+                                        onClick={handleLogout}
+                                    >
+                                        <LogoutIcon
+                                            style={{ color: '#ffff' }}
+                                        />
+                                    </IconButton>
+                                </Tooltip>
+                            </Stack>
+                        ) : (
+                            <></>
+                        )}
+                    </Box>
                 </Toolbar>
             </AppBar>
         </div>
     )
 }
-
-export default Header

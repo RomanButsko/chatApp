@@ -1,54 +1,33 @@
-import { useEffect, useMemo, useState } from 'react';
-import io ,{ Socket } from 'socket.io-client';
-import { IMessage, IMessageCreate } from '../types/message';
+import { useEffect, useState } from 'react'
+import io from 'socket.io-client'
+import { IMessage, IMessageCreate } from '../types/message'
 
-export const useChat = (name: string) => {
-    // const [socket] = useState<Socket>(
-    //     io(`http://localhost:80/mail`, {
-    //         query: {
-    //             name,
-    //         },
-    //     })
-    // );
-    const [socket, setSocket] = useState<Socket>()
-    const [letters, setLetters] = useState<IMessage[]>([]);
+export const useChat = (name?: string) => {
+    const socket = io('http://localhost:80/mail', { query: { name: name } })
 
-    const messageListener = (message: IMessage[]) => {
-        setLetters([...letters, ...message]);
-    };
+    const [letters, setLetters] = useState<IMessage[]>([])
+    const [notification, setNotification] = useState<boolean>(false)
 
     useEffect(() => {
-        setSocket(io(`http://localhost:80/mail`, {
-            query: {
-                name,
-            },
-        }))
-        return () => {
-            socket?.disconnect();
-            };
-    }, [name])
+        socket.emit('letters:get', name, (message: IMessage[]) => {
+            setLetters(message)
+        })
 
-    useEffect(() => {
-        if (socket) {
-            socket.on('letters:get', (letters: IMessage[]) => {
-                setLetters(letters);
-            });
-            socket.emit('letters:get', name);
+        socket.on('letters:create', (receivedLetters: IMessage) => {
+            if (receivedLetters.toUser.name === name) {
+                setNotification(true)
+                setLetters((prevValue) => [receivedLetters, ...prevValue])
             }
-    }, [socket, name])
+        })
 
-    // useEffect(() => {
-    //     console.log('name3', name)
-    //     socket?.emit("letters:get", name);
-    //     socket?.on("letters:get", messageListener);
-    //     return () => {
-    //         socket?.disconnect();
-    //     };
-    // }, []);
+        return () => {
+            socket.off('letters:get')
+        }
+    }, [])
 
     const send = (payload: IMessageCreate) => {
-        socket?.emit("letters:create", payload);
-    };
+        socket?.emit('letters:create', payload)
+    }
 
-    return {letters , send};
+    return { letters, send, setLetters, notification, setNotification }
 }

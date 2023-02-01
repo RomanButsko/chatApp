@@ -12,8 +12,8 @@ export interface IMessage {
 export interface IMessageCreate {
     title: string
     text: string
-    userId: number;
-    toUserId: number;
+    userId: number
+    toUserId: string
 }
 
 export type IMessages = Omit<IMessage, 'user' | 'toUser'>

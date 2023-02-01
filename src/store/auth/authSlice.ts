@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { IUser } from '../../types/user'
-import { signInUser, logout } from './auth.actions'
+import { signInUser } from './auth.actions'
 import { IAuth } from './auth.interface'
 
 const initialState = {
@@ -34,17 +34,6 @@ export const authSlice = createSlice({
                     state.error = action.payload
                 }
             )
-            .addCase(logout.pending, (state, _) => {
-                state.isLoading = true
-            })
-            .addCase(logout.fulfilled, (state, _) => {
-                state.isLoading = false
-                state.user = null
-            })
-            .addCase(logout.rejected, (state, action: PayloadAction<any>) => {
-                state.isLoading = false
-                state.error = action.payload
-            })
     },
 })
 

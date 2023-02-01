@@ -1,5 +1,5 @@
-import { IUser } from '../types/user';
+import { IUser } from '../types/user'
 
 export interface ILetters {
-    content: IUser;
+    content: IUser
 }

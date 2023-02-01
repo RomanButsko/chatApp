@@ -3,7 +3,6 @@ import { ChangeEvent, useRef, useState } from 'react'
 import style from './ModalEntry.module.sass'
 import SendIcon from '@mui/icons-material/Send'
 import { useActions } from '../../hooks/useDispatch'
-import { signInUser } from '../../store/auth/auth.actions'
 
 export const ModalEntry = () => {
     const [open, setOpen] = useState<boolean>(true)
@@ -11,15 +10,11 @@ export const ModalEntry = () => {
 
     const ref = useRef<HTMLInputElement>(null)
 
-    const {signInUser} = useActions()
+    const { signInUser } = useActions()
 
-    const handleOpen = () => {
-        setOpen(true)
-    }
+    const handleOpen = () => setOpen(true)
 
-    const handleClose = () => {
-        setOpen(false)
-    }
+    const handleClose = () => setOpen(false)
 
     const handleSignIn = () => {
         if (ref.current && ref.current.value) {
@@ -34,8 +29,8 @@ export const ModalEntry = () => {
 
     return (
         <>
-            <Button color="primary" onClick={handleOpen}>
-                Open Modal
+            <Button color="primary" onClick={handleOpen} size="large">
+                Click here to Sign In
             </Button>
             <Modal
                 aria-labelledby="modal-modal-title"
@@ -46,7 +41,7 @@ export const ModalEntry = () => {
             >
                 <Paper className={style.modal_block}>
                     <div>
-                        <h2 id="simple-modal-title">Введите имя</h2>
+                        <h2 id="simple-modal-title">Enter your name</h2>
                         <TextField
                             id="standard-basic"
                             label="Name"
@@ -56,13 +51,13 @@ export const ModalEntry = () => {
                     </div>
                     <Button
                         sx={{ margin: '0 auto', width: '50%' }}
-                        color="secondary"
+                        color="success"
                         variant="contained"
                         endIcon={<SendIcon />}
                         onClick={handleSignIn}
                         disabled={disabled}
                     >
-                        Войти
+                       Sign in
                     </Button>
                 </Paper>
             </Modal>

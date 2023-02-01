@@ -6,7 +6,7 @@ export interface IUser {
 }
 
 export interface IUsersNames {
-    name: string;
+    name: string
 }
 
 export type IUserQuery = IUsersNames & Pick<IUser, 'id'>

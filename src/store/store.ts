@@ -37,6 +37,7 @@ export const store = configureStore({
                 ],
             },
         }).concat(api.middleware),
+        devTools: false
 })
 
 export const persistor = persistStore(store)

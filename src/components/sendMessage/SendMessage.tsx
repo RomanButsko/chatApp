@@ -1,54 +1,58 @@
 import { Button, Modal, TextField } from '@mui/material'
 import { useState } from 'react'
+import { useChat } from '../../hooks/useChat'
 import { useOutside } from '../../hooks/useOutside'
 import { useSearch } from '../../hooks/useSearch'
 import { useAppSelector } from '../../hooks/useSelector'
 import { useUserExists } from '../../hooks/useUserExist'
-import { userSelector } from '../../store/auth/authSlice'
+import CreateIcon from '@mui/icons-material/Create'
 import style from './SendMessage.module.sass'
 
 export const SendMessage = () => {
     const [open, setOpen] = useState<boolean>(false)
-    const [to, setTo] = useState<any>('')
     const [theme, setTheme] = useState<string>('')
     const [message, setMessage] = useState<string>('')
 
     const { searchTerm, searchResults, handleChange, setSearchTerm } =
-    useSearch();
+        useSearch()
 
-    const { ref, isShow, setIsShow } = useOutside(true);
+    const { ref, isShow, setIsShow } = useOutside(true)
 
     const user = useUserExists()
 
-    const userData = useAppSelector(state => state.auth.user);
-    // const {send} = useChat(userData?.name)
-
+    const userData = useAppSelector((state) => state.auth.user)
+    const { send } = useChat(userData?.name)
 
     const handleSelectName = (name: string) => {
-        setSearchTerm(name);
+        setSearchTerm(name)
         setIsShow(false)
     }
 
+    const handleOpen = () => setOpen(true)
 
-    const handleOpen = () => {
-        setOpen(true)
-    }
-
-    const handleClose = () => {
-        setOpen(false)
-    }
+    const handleClose = () => setOpen(false)
 
     const handleSubmit = () => {
-        // send({title: theme, text: message, toUserId: searchTerm, userId: +userData.id })
+        send({
+            title: theme,
+            text: message,
+            toUserId: searchTerm,
+            userId: userData?.id as number,
+        })
+        setOpen(false)
+        setMessage('')
+        setTheme('')
+        setSearchTerm('')
     }
     return (
         <div>
             <Button
                 variant="contained"
                 onClick={handleOpen}
+                startIcon={<CreateIcon />}
                 className={style.btn_main}
             >
-                Send Letter
+                Compose
             </Button>
             <Modal open={open} onClose={handleClose} className={style.modal}>
                 <div className={style.modal_container}>
@@ -58,21 +62,28 @@ export const SendMessage = () => {
                         value={searchTerm}
                         onChange={handleChange}
                         onClick={() => setIsShow(true)}
+                        style={{ position: 'relative' }}
                         fullWidth
                     />
                     {searchTerm && isShow && (
-                        <div ref={ref}>
+                        <div
+                            ref={ref}
+                            className={style.modal_container__search}
+                        >
                             <ul>
                                 {searchResults.length ? (
                                     searchResults.map((item) => (
                                         <li
-                                            onClick={() => handleSelectName(item.name)}
-                                        >{item.name}</li>
+                                            key={item.id}
+                                            onClick={() =>
+                                                handleSelectName(item.name)
+                                            }
+                                        >
+                                            {item.name}
+                                        </li>
                                     ))
                                 ) : (
-                                    <span>
-                                        ничего не найдено
-                                    </span>
+                                    <li>Nothing found</li>
                                 )}
                             </ul>
                         </div>
@@ -93,7 +104,9 @@ export const SendMessage = () => {
                         rows={8}
                         style={{ marginTop: 16, marginBottom: 10 }}
                     />
-                    <Button className={style.btn_close}>Close</Button>
+                    <Button className={style.btn_close} onClick={handleClose}>
+                        Close
+                    </Button>
                     <Button
                         className={style.btn_send}
                         variant="contained"
