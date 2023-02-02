@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 import { IMessage, IMessageCreate } from '../types/message'
 
 export const useChat = (name?: string) => {
-    const socket = io('wss://chatappser-production.up.railway.app/mail', { query: { name: name } })
+    const socket = io('wss://chatappser-production.up.railway.app/mail', { query: { name: name }, transports: ['websocket'] })
 
     const [letters, setLetters] = useState<IMessage[]>([])
     const [notification, setNotification] = useState<boolean>(false)
